@@ -1,5 +1,7 @@
 package com.example.restful;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,6 +21,12 @@ public class PersonController {
             new Person(4, "Максим", "Яковлевич", "Окопский", LocalDate.of(1978, 6,5))
     ));
 
+    @PostMapping("/person")
+    public Person addPerson(@RequestBody Person person) {
+        persons.add(person);
+        return person;
+    }
+
     @GetMapping("/person")
     public Iterable<Person> getPersons() {
         return persons;
@@ -27,12 +35,6 @@ public class PersonController {
     @GetMapping("/person/{id}")
     public Optional<Person> findPersonById(@PathVariable int id) {
         return persons.stream().filter(p -> p.getId() == id).findFirst();
-    }
-
-    @PostMapping("/person")
-    public Person addPerson(@RequestBody Person person) {
-        persons.add(person);
-        return person;
     }
 
     @PutMapping("/person/{id}")
